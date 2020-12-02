@@ -137,6 +137,11 @@ class BackInStockService extends Component
             $view->setTemplateMode($oldTemplateMode);
             return false;
         }
+        
+        // making sure that the subject is correct for the preheader text
+        $subject = $view->renderString($subject, [
+            'variant' => $variant,
+        ]);
 
         // template variables
         $renderVariables = [
