@@ -79,7 +79,7 @@ class BackInStockService extends Component
             $record = BackInStockRecord::findOne(array(
                 'variantId' => $model->variantId,
                 'email' => $model->email,
-                'options' => $model->options,
+                'options' => json_encode($model->options),
                 'isNotified' => 0
             ));
 
