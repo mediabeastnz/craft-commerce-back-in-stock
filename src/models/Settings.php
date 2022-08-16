@@ -25,6 +25,16 @@ class Settings extends Model
     // =========================================================================
 
     /**
+     * @var string
+     */
+    public $fromEmail = '';
+
+    /**
+     * @var string
+     */
+    public $fromName = '';
+
+    /**
      * @var bool
      */
     public $sendConfirmation = false;

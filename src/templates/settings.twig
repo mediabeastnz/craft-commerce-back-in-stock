@@ -13,8 +13,34 @@
 
 {% import "_includes/forms" as forms %}
 
+{% set craftSettings = craft.app.systemSettings.getSettings('email') %}
+
+{{ forms.autosuggestField({
+    first: true,
+    label: 'From Email Address',
+    instructions: 'The email address that confirmation and notification emails are sent from. Leave blank to use the System Email Address defined in Craft’s General Settings.',
+    id: 'fromEmail',
+    name: 'fromEmail',
+    placeholder: craftSettings.fromEmail ?? '',
+    value: settings.fromEmail,
+    errors: settings.getErrors('fromEmail'),
+    suggestEnvVars: true,
+    autofocus: true,
+}) }}
+
+{{ forms.autosuggestField({
+    label: 'From Name',
+    instructions: 'The “From” name that will be used when sending confirmation and notification emails. Leave blank to use the Sender Name defined in Craft’s General Settings.',
+    id: 'fromName',
+    name: 'fromName',
+    placeholder: craftSettings.fromName ?? '',
+    value: settings.fromName,
+    errors: settings.getErrors('fromName'),
+    suggestEnvVars: true,
+    autofocus: true,
+}) }}
+
 {{ forms.lightswitchField({
-    first: false,
     label: "Send email confirmation to customer",
     instructions: 'A confirmation email will be sent to the customer if they request to be notified',
     name: 'sendConfirmation',

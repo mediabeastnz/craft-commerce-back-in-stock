@@ -172,12 +172,17 @@ class BackInStockService extends Component
             return false;
         }
 
-        // Get from address from site settings
-        $settings = Craft::$app->systemSettings->getSettings('email');
+        // Get from plugin and Craft email settings
+        $settings = BackInStock::$plugin->getSettings();
+        $craftSettings = Craft::$app->systemSettings->getSettings('email');
+
+        // Populate From Email and Name if set, otherwise use Craft settings as default
+        $fromEmail = Craft::parseEnv($settings->fromEmail) ?: Craft::parseEnv($craftSettings['fromEmail']);
+        $fromName = Craft::parseEnv($settings->fromName) ?: Craft::parseEnv($craftSettings['fromName']);
 
         // build the email
         $newEmail = new Message();
-        $newEmail->setFrom([Craft::parseEnv($settings['fromEmail']) => Craft::parseEnv($settings['fromName'])]);
+        $newEmail->setFrom([$fromEmail => $fromName]);
         $newEmail->setTo($record->email);
         $newEmail->setSubject($subject);
         $newEmail->setHtmlBody($view->renderTemplate($templatePath, $renderVariables));
