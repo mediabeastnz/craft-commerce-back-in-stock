@@ -131,7 +131,10 @@ class BackInStockService extends Component
         }
 
         // get the order from the cart
-        $variant = Variant::findOne($record->variantId);
+        $variant = Variant::findOne([
+            'id' => $record->variantId,
+            'site' => $originalLanguage,
+        ]);
 
         if (!$variant) {
             $error = Craft::t('craft-commerce-back-in-stock', 'Could not find Variant for Back In Stock Notification email.');
