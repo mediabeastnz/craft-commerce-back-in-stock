@@ -9,11 +9,19 @@
     {% set title = 'Back in Stock ' ~ tabs[selectedTab].label %}
 {% endif %}
 
+{% block body %}
+    {% if not craft.app.config.general.allowAdminChanges %}
+        {% set tabs = tabs|withoutKey('settings') %}
+    {% endif %}
+
+    {{ parent() }}
+{% endblock %}
+
 {% block content %}
     {% block blockContent %}
 
     {% endblock %}
-    
+
     <div id="plugin-footer">
         <div class="footer-left">
             {% block footerButton %}
