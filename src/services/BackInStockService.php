@@ -140,13 +140,22 @@ class BackInStockService extends Component
             return false;
         }
 
+        $options = [];
+
+        // set record options if available
+        if ($record && is_string($record->options)) {
+            $options = Json::decode($record->options);
+        }
+
         // making sure that the subject is correct for the preheader text
         $subject = Craft::t('craft-commerce-back-in-stock', $subject, [
             'variant' => $variant,
+            'options' => $options,
         ]);
 
         $subject = $view->renderString($subject, [
             'variant' => $variant,
+            'options' => $options,
         ]);
 
         // template variables
@@ -156,8 +165,8 @@ class BackInStockService extends Component
         ];
 
         // Add the record options, if available
-        if ($record && is_string($record->options)) {
-            $renderVariables['options'] = Json::decode($record->options);
+        if (count(array_filter($options))) {
+            $renderVariables['options'] = $options;
         }
 
         $templatePath = $view->renderString($templatePath, $renderVariables);
